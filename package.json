@@ -1,0 +1,21 @@
+{
+  "name": "node2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && rm -rf dist/views && cp src/views dist/views -R",
+    "start": "node dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "path": "^0.12.7",
+    "pwoli": "^0.2.8"
+  }
+}
