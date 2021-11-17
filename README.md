@@ -1,6 +1,6 @@
 # Pwoli with TypeScript and NodeJS - Sample Application
 
-A boilerplate on a NodeJS app which uses Pwoli to show users on how it works
+A sample TypeScript enabled NodeJS app which uses Pwoli to show users on how it works.
 
 ## Try it out
 

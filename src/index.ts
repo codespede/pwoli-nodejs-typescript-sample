@@ -71,7 +71,7 @@ createServer(async function (req, res) {
                     });
                 });
 
-                if (req.headers['x-requested-with'] === 'XMLHttpRequest' && company.load(post)) {
+                if (req.headers['x-requested-with'] === 'XMLHttpRequest' && company.load(post)) { //If it's an ajax validation request sent by ActiveForm
                     res.setHeader('Content-Type', 'application/json');
                     res.write(JSON.stringify(await ActiveForm.validate(company)));
                     res.end();
