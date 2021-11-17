@@ -1,8 +1,32 @@
-import { DataTypes } from "sequelize";
+import { Op, DataTypes } from "sequelize";
 import { Model } from "pwoli";
-import { sequelize } from '.';
-export default class Company extends Model{
-    
+import sequelize from './index.js';
+import Event from "./Event";
+export default class Company extends (Model as any){
+    static associate() {
+        Company.hasOne(Event, { as: 'event', foreignKey: 'id', sourceKey: 'eventId' });
+    }
+  
+    get getter() {
+        return (async () => {
+            return (await Event.findByPk(this.eventId)).title;
+        })();
+    }
+  
+    sampleFunc() {
+        return this.id + Math.random();
+    }
+  
+    search(params) {
+        let provider = super.search.call(this, params); // calling the default implementation of search
+        for (const param in params[this.getFormName()]) {
+            if (['event.title'].includes(param)) {
+                provider.query.where[`$${param}$`] = { [Op.like]: `%${params[this.getFormName()]['event.title']}%` };
+                this[param] = params[this.getFormName()][param];
+            }
+        }
+        return provider;
+    }
 }
 
 const attributes = {
@@ -23,22 +47,6 @@ const attributes = {
     autoIncrement: false,
     comment: null,
     field: "title",
-  },
-  media: {
-    type: DataTypes.VIRTUAL,
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-  },
-  predefinedChatQueries: {
-    type: DataTypes.VIRTUAL,
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
   },
   status: {
     type: DataTypes.INTEGER,
@@ -66,63 +74,6 @@ const attributes = {
       }
     }
   },
-  logoPath: {
-    type: DataTypes.STRING(45),
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "logoPath",
-  },
-  exhibitionLogoPath: {
-    type: DataTypes.STRING(45),
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "exhibitionLogoPath",
-  },
-  eventId: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "eventId",
-    references: {
-      key: "id",
-      model: "Event",
-    },
-  },
-  exhibitorEmail: {
-    type: DataTypes.VIRTUAL,
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-  },
-  brochurePath: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "brochurePath",
-  },
-  bgImage: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "bgImage",
-  },
   phone: {
     type: DataTypes.STRING(255),
     allowNull: true,
@@ -132,15 +83,6 @@ const attributes = {
     comment: null,
     field: "phone",
   },
-  fax: {
-    type: DataTypes.STRING(255),
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "fax",
-  },
   email: {
     type: DataTypes.STRING(255),
     allowNull: true,
@@ -149,60 +91,9 @@ const attributes = {
     autoIncrement: false,
     comment: null,
     field: "email",
-  },
-  address: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "address",
-  },
-  primaryContact: {
-    type: DataTypes.STRING(255),
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "primaryContact",
-  },
-  isFeatured: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: "0",
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "isFeatured",
-  },
-  linkedInUrl: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-    defaultValue: '',
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "linkedInUrl",
-  },
-  fbUrl: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-    defaultValue: '',
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "fbUrl",
-  },
-  twitterUrl: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-    defaultValue: '',
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "twitterUrl",
+    validate: {
+      isEmail: true,
+    },
   },
   website: {
     type: DataTypes.TEXT,
@@ -212,6 +103,19 @@ const attributes = {
     autoIncrement: false,
     comment: null,
     field: "website",
+  },
+  eventId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: 'eventId',
+      references: {
+          key: 'id',
+          model: 'Event',
+      },
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -231,39 +135,6 @@ const attributes = {
     comment: null,
     field: "updatedAt",
   },
-  position: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: 0,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-    field: "position",
-  },
-  removedExhibitors: {
-    type: DataTypes.VIRTUAL,
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-  },
-  removedMedia: {
-    type: DataTypes.VIRTUAL,
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-  },
-  exhibitors: {
-    type: DataTypes.VIRTUAL,
-    allowNull: true,
-    defaultValue: null,
-    primaryKey: false,
-    autoIncrement: false,
-    comment: null,
-  },
 };
 
 const options = {
@@ -272,4 +143,6 @@ const options = {
   sequelize,
   hooks: {}
 };
+console.log('company', Model)
 Company.init(attributes, options);
+Company.associate();

@@ -1,6 +1,5 @@
-export const Sequelize = require("sequelize");
-import { DataTypes } from "sequelize";
-export let sequelize;
+import { Sequelize } from 'sequelize';
+let sequelize;
 const config = {
     "username": 'root2',
     "password": 'root',
@@ -8,11 +7,11 @@ const config = {
     "host": '127.0.0.1',
     "dialect": "mysql"
 };
-sequelize = new Sequelize(
+
+export default sequelize = new Sequelize(
     config.database,
     config.username,
     config.password,
-    config
+    config as any
 );
-import Company from './Company';
-export { Company };
+sequelize.sync()

@@ -16,6 +16,6 @@
   "dependencies": {
     "ejs": "^3.1.6",
     "path": "^0.12.7",
-    "pwoli": "^0.2.8"
+    "pwoli": "*"
   }
 }
