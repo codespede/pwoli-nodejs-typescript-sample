@@ -1,7 +1,7 @@
 import { createServer } from 'http';
 import path = require('path');
 import { Application as Pwoli } from 'pwoli';
-import { Model as SequelizeModel } from 'sequelize';
+import sequelize from "./models"
 Pwoli.setViewPath(path.join(__dirname, 'views'));
 Pwoli.ormAdapterClasses['mongoose'] = {};
 //Pwoli.setORMAdapter(new Pwoli.ormAdapterClasses['sequelize']());
@@ -32,10 +32,16 @@ class MyGridView extends GridView {
     }
 }
 
+sequelize.sync().then(result => {
+        //console.log('sync', result);
+    }).catch(err => {
+        //console.log('sync', err);
+    });
 createServer(async function (req, res) {
     Pwoli.view = new View({});
     //Pwoli.orm = 'mongoose'
     //console.log('orma', Pwoli.ormAdapterClasses, Pwoli.orm, Pwoli.getORMAdapter())
+    
     const uri = url.parse(req.url).pathname;
     let filename = path.join(process.cwd(), uri);
     if (fs.existsSync(filename) && !fs.statSync(filename).isDirectory()) {

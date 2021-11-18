@@ -11,7 +11,6 @@ const eventAttributes = {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: null,
         primaryKey: true,
         autoIncrement: true,
         comment: null,
@@ -25,6 +24,24 @@ const eventAttributes = {
         autoIncrement: false,
         comment: null,
         field: 'title',
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "createdAt",
+    },
+        updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "updatedAt",
     },
 };
 const eventOptions = {
