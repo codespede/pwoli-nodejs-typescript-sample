@@ -32,11 +32,11 @@ class MyGridView extends GridView {
     }
 }
 
-sequelize.sync().then(result => {
+/*sequelize.sync().then(result => {
         //console.log('sync', result);
     }).catch(err => {
         //console.log('sync', err);
-    });
+    });*/
 createServer(async function (req, res) {
     Pwoli.view = new View({});
     //Pwoli.orm = 'mongoose'

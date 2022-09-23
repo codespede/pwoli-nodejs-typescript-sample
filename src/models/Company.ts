@@ -113,7 +113,7 @@ const attributes = {
       field: 'eventId',
       references: {
           key: 'id',
-          model: 'Event',
+          model: 'event',
       },
   },
   createdAt: {
