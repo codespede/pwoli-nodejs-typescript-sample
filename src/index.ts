@@ -59,12 +59,12 @@ createServer(async function (req, res) {
         });
     } else {
         if (req.url.includes('items/delete')) {
-            await Company.destroy({ where: { id: req.url.substring(req.url.lastIndexOf('/') + 1) } });
+            await Company.destroy({ where: { id: req.url.substring(req.url.lastIndexOf('/') + 1).replace(/\D/g, '') } });
         }else if (req.url.includes('items/create') || req.url.includes('items/update')) {
-            console.log('req-query', req.url.substring(req.url.lastIndexOf('/') + 1));
+            console.log('req-query', req.url.substring(req.url.lastIndexOf('/') + 1).replace(/\D/g, ''));
             const company = req.url.includes('items/create')
                 ? new Company()
-                : await Company.findOne({ where: { id: req.url.substring(req.url.lastIndexOf('/') + 1) } });
+                : await Company.findOne({ where: { id: req.url.substring(req.url.lastIndexOf('/') + 1).replace(/\D/g, '') } });
             //console.log('company-test', company);
             if (req.method === 'POST') {
                 let body = '';

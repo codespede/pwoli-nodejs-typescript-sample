@@ -137,7 +137,7 @@ const attributes = {
 };
 
 const options = {
-  tableName: "Company",
+  tableName: "company",
   comment: "ss",
   indexes: [
     {
