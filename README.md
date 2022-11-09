@@ -7,7 +7,8 @@ A sample TypeScript enabled Express.js app which uses Pwoli to show users how it
 Easiest way is to clone this repo into your local:
 
 ```
-git clone https://github.com/internetmango/pwoli-typescript-nodejs-sample.git
+git clone https://github.com/internetmango/pwoli-nodejs-typescript-sample.git
+# cd into the directory
 npm install
 ```
 

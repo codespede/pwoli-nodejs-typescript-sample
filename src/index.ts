@@ -58,13 +58,14 @@ createServer(async function (req, res) {
             return;
         });
     } else {
+        let id = req.url.split('/').pop().split('?')[0];
         if (req.url.includes('items/delete')) {
-            await Company.destroy({ where: { id: req.url.substring(req.url.lastIndexOf('/') + 1).replace(/\D/g, '') } });
+            await Company.destroy({ where: { id } });
         }else if (req.url.includes('items/create') || req.url.includes('items/update')) {
-            console.log('req-query', req.url.substring(req.url.lastIndexOf('/') + 1).replace(/\D/g, ''));
+            console.log('req-query', id, req.url);
             const company = req.url.includes('items/create')
                 ? new Company()
-                : await Company.findOne({ where: { id: req.url.substring(req.url.lastIndexOf('/') + 1).replace(/\D/g, '') } });
+                : await Company.findOne({ where: { id } });
             //console.log('company-test', company);
             if (req.method === 'POST') {
                 let body = '';
