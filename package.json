@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && rm -rf dist/views && cp src/views dist/views -R",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "mongo": "node dist/index-mongo.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,9 +15,11 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
+    "@types/mongoose": "^5.11.97",
     "ejs": "^3.1.6",
+    "mongoose": "^6.7.1",
     "path": "^0.12.7",
     "pg": "^8.8.0",
-    "pwoli": "^0.9.11-beta"
+    "pwoli": "^1.1.0"
   }
 }
